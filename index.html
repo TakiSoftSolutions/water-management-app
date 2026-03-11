@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نظام تدبير استهلاك الماء الشروب</title>
+  <meta name="description" content="تطبيق محلي لتدبير استهلاك الماء الشروب للجمعيات والمسؤولين عن شبكات الماء، مع الطباعة الحرارية والمشاركة عبر WhatsApp." />
+  <style>
+    :root{
+      --primary:#0f766e;
+      --primary-dark:#115e59;
+      --secondary:#0ea5e9;
+      --accent:#f59e0b;
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --border:#e2e8f0;
+      --shadow:0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius:20px;
+      --max:1100px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Tahoma","Arial","Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.9;
+    }
+
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+
+    .container{
+      width:min(92%, var(--max));
+      margin:auto;
+    }
+
+    .topbar{
+      background:#ffffffcc;
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      min-height:72px;
+    }
+
+    .brand{
+      font-size:1.15rem;
+      font-weight:700;
+      color:var(--primary-dark);
+    }
+
+    .nav-links{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      font-size:.97rem;
+      color:var(--muted);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:13px 22px;
+      border-radius:999px;
+      font-weight:700;
+      transition:.25s ease;
+      border:1px solid transparent;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      background:var(--primary);
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
+    .btn-primary:hover{background:var(--primary-dark)}
+    .btn-outline{
+      border-color:var(--primary);
+      color:var(--primary);
+      background:#fff;
+    }
+    .btn-outline:hover{
+      background:#f0fdfa;
+    }
+
+    .hero{
+      padding:72px 0 48px;
+      background:
+        radial-gradient(circle at top right, rgba(14,165,233,.12), transparent 30%),
+        radial-gradient(circle at top left, rgba(15,118,110,.12), transparent 30%);
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:28px;
+      align-items:center;
+    }
+
+    .badge{
+      display:inline-block;
+      background:#ecfeff;
+      color:#0c4a6e;
+      border:1px solid #bae6fd;
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:.9rem;
+      margin-bottom:18px;
+    }
+
+    h1{
+      font-size:clamp(2rem, 5vw, 3.5rem);
+      line-height:1.25;
+      margin:0 0 16px;
+      color:#062c30;
+    }
+
+    .lead{
+      font-size:1.08rem;
+      color:var(--muted);
+      margin:0 0 24px;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:20px;
+    }
+
+    .hero-card{
+      background:linear-gradient(135deg, #0f766e, #0ea5e9);
+      color:#fff;
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      min-height:320px;
+    }
+
+    .hero-card::after{
+      content:"";
+      position:absolute;
+      inset:auto -40px -40px auto;
+      width:180px;
+      height:180px;
+      background:rgba(255,255,255,.14);
+      border-radius:50%;
+    }
+
+    .hero-card h3{
+      margin-top:0;
+      font-size:1.4rem;
+    }
+
+    .hero-list{
+      padding:0;
+      margin:18px 0 0;
+      list-style:none;
+    }
+
+    .hero-list li{
+      margin:10px 0;
+      padding-right:18px;
+      position:relative;
+    }
+
+    .hero-list li::before{
+      content:"✓";
+      position:absolute;
+      right:0;
+      color:#fde68a;
+      font-weight:bold;
+    }
+
+    section{
+      padding:34px 0;
+    }
+
+    .section-title{
+      text-align:center;
+      margin-bottom:22px;
+    }
+
+    .section-title h2{
+      margin:0 0 8px;
+      font-size:2rem;
+      color:#0f172a;
+    }
+
+    .section-title p{
+      margin:0;
+      color:var(--muted);
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .card h3{
+      margin:0 0 10px;
+      font-size:1.1rem;
+      color:var(--primary-dark);
+    }
+
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:.97rem;
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:18px;
+    }
+
+    .feature{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px 20px;
+      box-shadow:var(--shadow);
+    }
+
+    .feature strong{
+      display:block;
+      margin-bottom:6px;
+      color:#0f172a;
+    }
+
+    .feature span{
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .about{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+      align-items:start;
+    }
+
+    .info-list{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+
+    .info-list li{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px 16px;
+      margin-bottom:12px;
+      box-shadow:var(--shadow);
+      color:var(--muted);
+    }
+
+    .privacy-box{
+      background:#ffffff;
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:26px;
+      box-shadow:var(--shadow);
+    }
+
+    .privacy-box h3{
+      margin-top:0;
+      color:var(--primary-dark);
+    }
+
+    .privacy-box ul{
+      margin:0;
+      padding-right:20px;
+      color:var(--muted);
+    }
+
+    .cta{
+      margin:30px 0 10px;
+      background:linear-gradient(135deg, #082f49, #0f766e);
+      color:#fff;
+      border-radius:28px;
+      padding:32px;
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+
+    .cta h2{
+      margin:0 0 12px;
+      font-size:2rem;
+    }
+
+    .cta p{
+      margin:0 0 18px;
+      color:#e2e8f0;
+    }
+
+    .footer{
+      padding:28px 0 50px;
+      color:var(--muted);
+      font-size:.92rem;
+      text-align:center;
+    }
+
+    .screens{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
+    }
+
+    .screen{
+      background:#fff;
+      border:1px dashed #cbd5e1;
+      border-radius:18px;
+      min-height:230px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#64748b;
+      text-align:center;
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+
+    @media (max-width: 900px){
+      .hero-grid,
+      .about,
+      .grid-3,
+      .features,
+      .screens{
+        grid-template-columns:1fr;
+      }
+
+      .nav{
+        flex-direction:column;
+        justify-content:center;
+        padding:12px 0;
+      }
+
+      .nav-links{
+        justify-content:center;
+      }
+
+      .hero{
+        padding-top:40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="container nav">
+      <div class="brand">نظام تدبير الماء الشروب</div>
+      <div class="nav-links">
+        <a href="#about">عن التطبيق</a>
+        <a href="#features">المميزات</a>
+        <a href="#screens">الصور</a>
+        <a href="#privacy">سياسة الخصوصية</a>
+        <a href="#contact">تواصل</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge">حل رقمي محلي للجمعيات والمسؤولين عن شبكات الماء</div>
+        <h1>نظام تدبير استهلاك الماء الشروب</h1>
+        <p class="lead">
+          تطبيق عملي لتسجيل المشتركين، إدخال قراءات العدادات، حساب الاستهلاك،
+          إصدار إشعارات الأداء، وطباعة الوثائق عبر الطابعة الحرارية Bluetooth،
+          مع إمكانية المشاركة اليدوية عبر WhatsApp.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#features">اكتشف المميزات</a>
+          <a class="btn btn-outline" href="#privacy">سياسة الخصوصية</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <h3>مناسب للاستعمال الميداني</h3>
+        <ul class="hero-list">
+          <li>يعمل محليًا بدون إنترنت</li>
+          <li>إدارة بيانات المشتركين بسهولة</li>
+          <li>الطباعة على طابعات حرارية عبر Bluetooth</li>
+          <li>مشاركة الإشعارات يدويًا عبر WhatsApp</li>
+          <li>واجهة مبسطة للاستعمال اليومي</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>عن التطبيق</h2>
+        <p>أداة موجهة للجمعيات والمسؤولين عن تدبير شبكات الماء داخل التجمعات السكنية</p>
+      </div>
+
+      <div class="about">
+        <div class="card">
+          <h3>وصف عام</h3>
+          <p>
+            يساعد التطبيق على تنظيم عملية تدبير استهلاك الماء الشروب من خلال
+            تسجيل المشتركين، تتبع الاستهلاك، إعداد الإشعارات، وطباعة الوصولات
+            أو الوثائق المرتبطة بالاستخلاص.
+          </p>
+        </div>
+
+        <ul class="info-list">
+          <li><strong>نوع التطبيق:</strong> تطبيـق مهني محلي</li>
+          <li><strong>الاتصال بالإنترنت:</strong> غير مطلوب في الاستخدام الأساسي</li>
+          <li><strong>وسيلة الطباعة:</strong> Bluetooth + طابعة حرارية</li>
+          <li><strong>الفئة المستهدفة:</strong> الجمعيات ومسؤولو شبكات الماء</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>مميزات التطبيق</h2>
+        <p>وظائف عملية تسهّل التتبع والطباعة والتواصل مع المشتركين</p>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <strong>تسجيل المشتركين</strong>
+          <span>إضافة بيانات المشتركين وتنظيمها داخل قاعدة بيانات محلية.</span>
+        </div>
+        <div class="feature">
+          <strong>إدخال القراءات</strong>
+          <span>تسجيل قراءات العدادات وتتبع الاستهلاك بطريقة منظمة.</span>
+        </div>
+        <div class="feature">
+          <strong>حساب الاستهلاك</strong>
+          <span>احتساب الاستهلاك تلقائيًا وفق المعطيات المسجلة.</span>
+        </div>
+        <div class="feature">
+          <strong>إشعارات الأداء</strong>
+          <span>إنشاء إشعارات ورسائل خاصة بالاستخلاص والتنبيه.</span>
+        </div>
+        <div class="feature">
+          <strong>الطباعة الحرارية</strong>
+          <span>طباعة الوثائق مباشرة عبر طابعة Bluetooth حرارية.</span>
+        </div>
+        <div class="feature">
+          <strong>مشاركة عبر WhatsApp</strong>
+          <span>مشاركة الإشعارات يدويًا بطلب من المستخدم.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screens">
+    <div class="container">
+      <div class="section-title">
+        <h2>صور من التطبيق</h2>
+        <p>يمكنك استبدال هذه المربعات لاحقًا بلقطات شاشة حقيقية من التطبيق</p>
+      </div>
+
+      <div class="screens">
+        <div class="screen">صورة شاشة: الصفحة الرئيسية</div>
+        <div class="screen">صورة شاشة: لائحة المشتركين</div>
+        <div class="screen">صورة شاشة: الطباعة والإشعارات</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="privacy">
+    <div class="container">
+      <div class="section-title">
+        <h2>سياسة الخصوصية</h2>
+        <p>ملخص واضح لطريقة التعامل مع البيانات داخل التطبيق</p>
+      </div>
+
+      <div class="privacy-box">
+        <h3>نلتزم بحماية بيانات المستخدمين</h3>
+        <ul>
+          <li>يُستخدم التطبيق لتدبير بيانات استهلاك الماء الشروب محليًا على الجهاز.</li>
+          <li>يُدخل المسؤول بيانات المشتركين يدويًا لأغراض التسيير والإشعار والاستخلاص.</li>
+          <li>لا يتم إرسال البيانات إلى خوادم خارجية ضمن الاستخدام المحلي الأساسي للتطبيق.</li>
+          <li>لا يستخدم التطبيق الإعلانات أو التتبع أو التحليلات الإعلانية.</li>
+          <li>يمكن مشاركة الإشعارات عبر WhatsApp فقط عندما يختار المستخدم ذلك يدويًا.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="cta">
+        <h2>هل ترغب في اعتماد هذا الحل داخل جمعيتك؟</h2>
+        <p>يمكن تخصيص التطبيق حسب حاجيات التسيير والطباعة والتنظيم المحلي.</p>
+        <a class="btn btn-primary" href="mailto:example@email.com">تواصل عبر البريد الإلكتروني</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      © 2026 نظام تدبير استهلاك الماء الشروب — جميع الحقوق محفوظة
+    </div>
+  </footer>
+
+</body>
+</html>
