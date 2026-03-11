@@ -4,10 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>نظام تدبير الماء الصالح للشرب</title>
-  <meta
-    name="description"
-    content="تطبيق محلي لتدبير استهلاك الماء الصالح للشرب للجمعيات والمسؤولين، مع الطباعة الحرارية والمشاركة عبر WhatsApp."
-  />
+  <meta name="description" content="تطبيق محلي لتدبير استهلاك الماء الصالح للشرب للجمعيات والمسؤولين، مع الطباعة الحرارية والمشاركة عبر WhatsApp." />
+
+  <!-- خطوط عربية وفرنسية جميلة -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --primary:#0f766e;
@@ -18,19 +21,47 @@
       --card:#ffffff;
       --border:#e2e8f0;
       --gold:#f59e0b;
-      --shadow:0 12px 35px rgba(15,23,42,.10);
+      --shadow:0 14px 40px rgba(15,23,42,.10);
       --radius:24px;
       --max:1180px;
     }
 
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
+
     body{
       margin:0;
-      font-family:"Tahoma","Arial","Segoe UI",sans-serif;
       background:linear-gradient(180deg,#f8fafc 0%,#eef7f8 100%);
       color:var(--dark);
       line-height:1.9;
+      transition:all .25s ease;
+    }
+
+    body.lang-ar{
+      font-family:"Cairo","Tahoma","Arial",sans-serif;
+    }
+
+    body.lang-fr{
+      font-family:"Inter","Segoe UI","Arial",sans-serif;
+    }
+
+    h1,h2,h3,.brand{
+      margin-top:0;
+    }
+
+    body.lang-ar h1,
+    body.lang-ar h2,
+    body.lang-ar h3,
+    body.lang-ar .hero-title{
+      font-family:"Amiri","Cairo",serif;
+      letter-spacing:0;
+    }
+
+    body.lang-fr h1,
+    body.lang-fr h2,
+    body.lang-fr h3,
+    body.lang-fr .hero-title{
+      font-family:"Inter","Segoe UI",sans-serif;
     }
 
     a{text-decoration:none;color:inherit}
@@ -60,7 +91,7 @@
     }
 
     .brand{
-      font-size:1.15rem;
+      font-size:1.18rem;
       font-weight:800;
       color:var(--primary);
       display:flex;
@@ -79,6 +110,14 @@
       color:#fff;
       font-weight:800;
       box-shadow:var(--shadow);
+      flex-shrink:0;
+    }
+
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
     }
 
     .nav-links{
@@ -91,6 +130,34 @@
 
     .nav-links a:hover{color:var(--primary)}
 
+    .lang-switch{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:6px;
+      box-shadow:var(--shadow);
+    }
+
+    .lang-btn{
+      border:none;
+      background:transparent;
+      padding:9px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:700;
+      color:var(--muted);
+      transition:.2s ease;
+      font-family:inherit;
+    }
+
+    .lang-btn.active{
+      background:linear-gradient(135deg,var(--primary),var(--primary-2));
+      color:#fff;
+    }
+
     .btn{
       display:inline-flex;
       align-items:center;
@@ -102,6 +169,7 @@
       transition:.25s ease;
       border:1px solid transparent;
       cursor:pointer;
+      font-family:inherit;
     }
 
     .btn-primary{
@@ -167,9 +235,9 @@
       font-weight:700;
     }
 
-    h1{
+    .hero-title{
       margin:0 0 16px;
-      font-size:clamp(2rem,5vw,3.8rem);
+      font-size:clamp(2rem,5vw,4rem);
       line-height:1.25;
     }
 
@@ -207,7 +275,6 @@
     }
 
     .hero-card h3{
-      margin-top:0;
       font-size:1.35rem;
     }
 
@@ -219,14 +286,24 @@
 
     .hero-list li{
       margin:10px 0;
-      padding-right:18px;
       position:relative;
     }
 
-    .hero-list li::before{
+    html[dir="rtl"] .hero-list li{padding-right:18px}
+    html[dir="ltr"] .hero-list li{padding-left:18px}
+
+    html[dir="rtl"] .hero-list li::before{
       content:"✓";
       position:absolute;
       right:0;
+      color:#fde68a;
+      font-weight:900;
+    }
+
+    html[dir="ltr"] .hero-list li::before{
+      content:"✓";
+      position:absolute;
+      left:0;
       color:#fde68a;
       font-weight:900;
     }
@@ -341,25 +418,6 @@
       text-align:center;
     }
 
-    .lang-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-    }
-
-    .lang-card{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:24px;
-      padding:24px;
-      box-shadow:var(--shadow);
-    }
-
-    .lang-card h3{
-      margin-top:0;
-      color:var(--primary);
-    }
-
     .privacy{
       background:#fff;
       border:1px solid var(--border);
@@ -370,9 +428,11 @@
 
     .privacy ul{
       margin:0;
-      padding-right:20px;
       color:var(--muted);
     }
+
+    html[dir="rtl"] .privacy ul{padding-right:20px}
+    html[dir="ltr"] .privacy ul{padding-left:20px}
 
     .privacy li{margin:10px 0}
 
@@ -409,12 +469,15 @@
       font-size:.92rem;
     }
 
+    .hidden{
+      display:none !important;
+    }
+
     @media (max-width: 920px){
       .hero-grid,
       .cards-3,
       .features,
-      .gallery,
-      .lang-grid{
+      .gallery{
         grid-template-columns:1fr;
       }
 
@@ -426,25 +489,35 @@
       .hero{
         padding-top:44px;
       }
+
+      .nav-right{
+        justify-content:center;
+      }
     }
   </style>
 </head>
-<body>
+<body class="lang-ar">
 
   <div class="topbar">
     <div class="container nav">
       <div class="brand">
         <span class="brand-badge">💧</span>
-        <span>نظام تدبير الماء الصالح للشرب</span>
+        <span id="brandText">نظام تدبير الماء الصالح للشرب</span>
       </div>
 
-      <div class="nav-links">
-        <a href="#about">عن التطبيق</a>
-        <a href="#features">المميزات</a>
-        <a href="#screens">صور التطبيق</a>
-        <a href="#fr">Français</a>
-        <a href="#privacy">سياسة الخصوصية</a>
-        <a href="#contact">تواصل</a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#about" data-i18n="nav_about">عن التطبيق</a>
+          <a href="#features" data-i18n="nav_features">المميزات</a>
+          <a href="#screens" data-i18n="nav_screens">صور التطبيق</a>
+          <a href="#privacy" data-i18n="nav_privacy">سياسة الخصوصية</a>
+          <a href="#contact" data-i18n="nav_contact">تواصل</a>
+        </div>
+
+        <div class="lang-switch">
+          <button class="lang-btn active" onclick="setLanguage('ar')" id="btnAr">العربية</button>
+          <button class="lang-btn" onclick="setLanguage('fr')" id="btnFr">Français</button>
+        </div>
       </div>
     </div>
   </div>
@@ -452,34 +525,40 @@
   <header class="hero">
     <div class="container hero-grid">
       <div>
-        <div class="badge">حل رقمي عملي للجمعيات والمسؤولين عن شبكات الماء بالمغرب</div>
-        <h1>نظام تدبير استهلاك الماء الصالح للشرب</h1>
-        <p class="lead">
-          تطبيق محلي مخصص لتسجيل المشتركين، إدخال قراءات العدادات،
-          حساب الاستهلاك، إصدار إشعارات الأداء، والطباعة عبر الطابعة الحرارية
-          Bluetooth، مع إمكانية مشاركة الإشعارات يدويًا عبر WhatsApp.
+        <div class="badge" data-i18n="badge">
+          حل رقمي عملي للجمعيات والمسؤولين عن شبكات الماء بالمغرب
+        </div>
+
+        <h1 class="hero-title" data-i18n="hero_title">
+          نظام تدبير استهلاك الماء الصالح للشرب
+        </h1>
+
+        <p class="lead" data-i18n="hero_desc">
+          تطبيق محلي مخصص لتسجيل المشتركين، إدخال قراءات العدادات، حساب الاستهلاك،
+          إصدار إشعارات الأداء، والطباعة عبر الطابعة الحرارية Bluetooth،
+          مع إمكانية مشاركة الإشعارات يدويًا عبر WhatsApp.
         </p>
 
         <div class="hero-actions">
-          <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME" target="_blank">
+          <a class="btn btn-primary" id="playBtn" href="https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME" target="_blank" data-i18n="play_btn">
             تحميل من Google Play
           </a>
-          <a class="btn btn-outline" href="#screens">عرض صور التطبيق</a>
+          <a class="btn btn-outline" href="#screens" data-i18n="screens_btn">عرض صور التطبيق</a>
         </div>
 
-        <div class="small-note">
+        <div class="small-note" data-i18n="play_note">
           غيّر رابط Google Play لاحقًا بعد نشر التطبيق
         </div>
       </div>
 
       <div class="hero-card">
-        <h3>مناسب للاستعمال الميداني اليومي</h3>
+        <h3 data-i18n="hero_card_title">مناسب للاستعمال الميداني اليومي</h3>
         <ul class="hero-list">
-          <li>يعمل محليًا بدون إنترنت</li>
-          <li>تسجيل المشتركين وإدارة بياناتهم</li>
-          <li>إدخال قراءات العدادات وتتبع الاستهلاك</li>
-          <li>طباعة الإشعارات عبر الطابعة الحرارية</li>
-          <li>مشاركة الإشعارات يدويًا عبر WhatsApp</li>
+          <li data-i18n="hero_li_1">يعمل محليًا بدون إنترنت</li>
+          <li data-i18n="hero_li_2">تسجيل المشتركين وإدارة بياناتهم</li>
+          <li data-i18n="hero_li_3">إدخال قراءات العدادات وتتبع الاستهلاك</li>
+          <li data-i18n="hero_li_4">طباعة الإشعارات عبر الطابعة الحرارية</li>
+          <li data-i18n="hero_li_5">مشاركة الإشعارات يدويًا عبر WhatsApp</li>
         </ul>
       </div>
     </div>
@@ -488,33 +567,24 @@
   <section id="about">
     <div class="container">
       <div class="section-head">
-        <h2>عن التطبيق</h2>
-        <p>أداة موجهة للجمعيات ومكاتب التسيير والمسؤولين عن شبكات الماء المحلية</p>
+        <h2 data-i18n="about_title">عن التطبيق</h2>
+        <p data-i18n="about_desc">أداة موجهة للجمعيات ومكاتب التسيير والمسؤولين عن شبكات الماء المحلية</p>
       </div>
 
       <div class="cards-3">
         <div class="card">
-          <h3>إدارة منظمة</h3>
-          <p>
-            يساعد التطبيق على تنظيم بيانات المشتركين ومتابعة الاستهلاك
-            واستخراج الإشعارات بطريقة واضحة وسريعة.
-          </p>
+          <h3 data-i18n="card1_title">إدارة منظمة</h3>
+          <p data-i18n="card1_desc">يساعد التطبيق على تنظيم بيانات المشتركين ومتابعة الاستهلاك واستخراج الإشعارات بطريقة واضحة وسريعة.</p>
         </div>
 
         <div class="card">
-          <h3>بدون إنترنت</h3>
-          <p>
-            يعمل التطبيق محليًا على الجهاز، مما يجعله مناسبًا للاستعمال
-            في المناطق التي يكون فيها الاتصال بالإنترنت محدودًا أو غير متوفر.
-          </p>
+          <h3 data-i18n="card2_title">بدون إنترنت</h3>
+          <p data-i18n="card2_desc">يعمل التطبيق محليًا على الجهاز، مما يجعله مناسبًا للاستعمال في المناطق التي يكون فيها الاتصال بالإنترنت محدودًا أو غير متوفر.</p>
         </div>
 
         <div class="card">
-          <h3>طباعة ومشاركة</h3>
-          <p>
-            يمكن طباعة الوثائق مباشرة عبر طابعة Bluetooth حرارية،
-            أو مشاركة الإشعارات يدويًا عبر WhatsApp عند الحاجة.
-          </p>
+          <h3 data-i18n="card3_title">طباعة ومشاركة</h3>
+          <p data-i18n="card3_desc">يمكن طباعة الوثائق مباشرة عبر طابعة Bluetooth حرارية، أو مشاركة الإشعارات يدويًا عبر WhatsApp عند الحاجة.</p>
         </div>
       </div>
     </div>
@@ -523,34 +593,34 @@
   <section id="features">
     <div class="container">
       <div class="section-head">
-        <h2>مميزات التطبيق</h2>
-        <p>وظائف عملية تساعد على التسيير والمتابعة والطباعة</p>
+        <h2 data-i18n="features_title">مميزات التطبيق</h2>
+        <p data-i18n="features_desc">وظائف عملية تساعد على التسيير والمتابعة والطباعة</p>
       </div>
 
       <div class="features">
         <div class="feature">
-          <strong>تسجيل المشتركين</strong>
-          <span>إضافة وإدارة بيانات المشتركين محليًا داخل التطبيق.</span>
+          <strong data-i18n="f1_title">تسجيل المشتركين</strong>
+          <span data-i18n="f1_desc">إضافة وإدارة بيانات المشتركين محليًا داخل التطبيق.</span>
         </div>
         <div class="feature">
-          <strong>إدخال قراءات العدادات</strong>
-          <span>تسجيل قراءات الماء بطريقة سهلة ومنظمة.</span>
+          <strong data-i18n="f2_title">إدخال قراءات العدادات</strong>
+          <span data-i18n="f2_desc">تسجيل قراءات الماء بطريقة سهلة ومنظمة.</span>
         </div>
         <div class="feature">
-          <strong>حساب الاستهلاك</strong>
-          <span>احتساب الاستهلاك بشكل تلقائي وفق المعطيات المدخلة.</span>
+          <strong data-i18n="f3_title">حساب الاستهلاك</strong>
+          <span data-i18n="f3_desc">احتساب الاستهلاك بشكل تلقائي وفق المعطيات المدخلة.</span>
         </div>
         <div class="feature">
-          <strong>إشعارات الأداء</strong>
-          <span>إنشاء إشعارات ورسائل خاصة بالأداء والتنبيه.</span>
+          <strong data-i18n="f4_title">إشعارات الأداء</strong>
+          <span data-i18n="f4_desc">إنشاء إشعارات ورسائل خاصة بالأداء والتنبيه.</span>
         </div>
         <div class="feature">
-          <strong>الطباعة الحرارية</strong>
-          <span>الطباعة المباشرة عبر طابعة Bluetooth حرارية.</span>
+          <strong data-i18n="f5_title">الطباعة الحرارية</strong>
+          <span data-i18n="f5_desc">الطباعة المباشرة عبر طابعة Bluetooth حرارية.</span>
         </div>
         <div class="feature">
-          <strong>مشاركة عبر WhatsApp</strong>
-          <span>مشاركة الإشعارات يدويًا بطلب من المستخدم فقط.</span>
+          <strong data-i18n="f6_title">مشاركة عبر WhatsApp</strong>
+          <span data-i18n="f6_desc">مشاركة الإشعارات يدويًا بطلب من المستخدم فقط.</span>
         </div>
       </div>
     </div>
@@ -559,69 +629,30 @@
   <section id="screens">
     <div class="container">
       <div class="section-head">
-        <h2>صور التطبيق</h2>
-        <p>يمكنك استبدال هذه الأماكن لاحقًا بلقطات شاشة حقيقية من التطبيق</p>
+        <h2 data-i18n="screens_title">صور التطبيق</h2>
+        <p data-i18n="screens_desc">يمكنك استبدال هذه الأماكن لاحقًا بلقطات شاشة حقيقية من التطبيق</p>
       </div>
 
       <div class="gallery">
         <div class="shot">
           <div class="shot-box">
-            <!-- استبدل هذا النص بالصورة -->
-            <span>ضع هنا صورة الشاشة الرئيسية<br>home-screen.jpg</span>
+            <span data-i18n="screen1_placeholder">ضع هنا صورة الشاشة الرئيسية<br>home-screen.jpg</span>
           </div>
-          <div class="shot-title">الواجهة الرئيسية</div>
+          <div class="shot-title" data-i18n="screen1_title">الواجهة الرئيسية</div>
         </div>
 
         <div class="shot">
           <div class="shot-box">
-            <span>ضع هنا صورة لائحة المشتركين<br>subscribers-screen.jpg</span>
+            <span data-i18n="screen2_placeholder">ضع هنا صورة لائحة المشتركين<br>subscribers-screen.jpg</span>
           </div>
-          <div class="shot-title">إدارة المشتركين</div>
+          <div class="shot-title" data-i18n="screen2_title">إدارة المشتركين</div>
         </div>
 
         <div class="shot">
           <div class="shot-box">
-            <span>ضع هنا صورة الطباعة أو الإشعارات<br>print-screen.jpg</span>
+            <span data-i18n="screen3_placeholder">ضع هنا صورة الطباعة أو الإشعارات<br>print-screen.jpg</span>
           </div>
-          <div class="shot-title">الطباعة والإشعارات</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="fr">
-    <div class="container">
-      <div class="section-head">
-        <h2>Version française</h2>
-        <p>Présentation adaptée au contexte marocain</p>
-      </div>
-
-      <div class="lang-grid">
-        <div class="lang-card">
-          <h3>Présentation</h3>
-          <p>
-            Cette application est conçue pour les associations, les gestionnaires
-            locaux et les responsables chargés de la gestion de la consommation
-            d’eau potable dans les petites collectivités et les zones résidentielles.
-          </p>
-          <p>
-            Elle permet d’enregistrer les abonnés, saisir les relevés des compteurs,
-            calculer la consommation, générer des avis de paiement et imprimer
-            les documents via une imprimante thermique Bluetooth.
-          </p>
-        </div>
-
-        <div class="lang-card">
-          <h3>Fonctionnalités</h3>
-          <p>
-            L’application fonctionne localement sans connexion Internet.
-            Les notifications peuvent être partagées manuellement via WhatsApp
-            selon le besoin de l’utilisateur.
-          </p>
-          <p>
-            Elle constitue une solution pratique pour la gestion quotidienne
-            des réseaux d’eau potable au Maroc.
-          </p>
+          <div class="shot-title" data-i18n="screen3_title">الطباعة والإشعارات</div>
         </div>
       </div>
     </div>
@@ -630,18 +661,18 @@
   <section id="privacy">
     <div class="container">
       <div class="section-head">
-        <h2>سياسة الخصوصية</h2>
-        <p>ملخص واضح لطريقة التعامل مع البيانات داخل التطبيق</p>
+        <h2 data-i18n="privacy_title">سياسة الخصوصية</h2>
+        <p data-i18n="privacy_desc">ملخص واضح لطريقة التعامل مع البيانات داخل التطبيق</p>
       </div>
 
       <div class="privacy">
         <ul>
-          <li>يُستخدم التطبيق لإدارة بيانات استهلاك الماء الصالح للشرب محليًا على الجهاز.</li>
-          <li>يقوم المسؤول بإدخال بيانات المشتركين يدويًا لأغراض التسيير والإشعار والاستخلاص.</li>
-          <li>لا يتم إرسال البيانات إلى خوادم خارجية ضمن الاستخدام المحلي الأساسي للتطبيق.</li>
-          <li>لا يستخدم التطبيق الإعلانات أو خدمات التتبع أو التحليلات الإعلانية.</li>
-          <li>يمكن مشاركة الإشعارات عبر WhatsApp فقط عندما يختار المستخدم ذلك يدويًا.</li>
-          <li>جميع البيانات تبقى تحت مسؤولية الجهة المستعملة للتطبيق على الجهاز المحلي.</li>
+          <li data-i18n="p1">يُستخدم التطبيق لإدارة بيانات استهلاك الماء الصالح للشرب محليًا على الجهاز.</li>
+          <li data-i18n="p2">يقوم المسؤول بإدخال بيانات المشتركين يدويًا لأغراض التسيير والإشعار والاستخلاص.</li>
+          <li data-i18n="p3">لا يتم إرسال البيانات إلى خوادم خارجية ضمن الاستخدام المحلي الأساسي للتطبيق.</li>
+          <li data-i18n="p4">لا يستخدم التطبيق الإعلانات أو خدمات التتبع أو التحليلات الإعلانية.</li>
+          <li data-i18n="p5">يمكن مشاركة الإشعارات عبر WhatsApp فقط عندما يختار المستخدم ذلك يدويًا.</li>
+          <li data-i18n="p6">جميع البيانات تبقى تحت مسؤولية الجهة المستعملة للتطبيق على الجهاز المحلي.</li>
         </ul>
       </div>
     </div>
@@ -650,21 +681,172 @@
   <section id="contact">
     <div class="container">
       <div class="cta">
-        <h2>هل ترغب في اعتماد هذا الحل داخل جمعيتك؟</h2>
-        <p>
-          يمكن تخصيص التطبيق حسب حاجيات التسيير والطباعة ومتابعة الاستهلاك.
-        </p>
-        <a class="btn btn-primary" href="mailto:your-email@example.com">تواصل عبر البريد الإلكتروني</a>
+        <h2 data-i18n="contact_title">هل ترغب في اعتماد هذا الحل داخل جمعيتك؟</h2>
+        <p data-i18n="contact_desc">يمكن تخصيص التطبيق حسب حاجيات التسيير والطباعة ومتابعة الاستهلاك.</p>
+        <a class="btn btn-primary" href="mailto:your-email@example.com" data-i18n="contact_btn">تواصل عبر البريد الإلكتروني</a>
       </div>
-      <div class="small-note">غيّر البريد الإلكتروني إلى بريدك الحقيقي قبل النشر</div>
+      <div class="small-note" data-i18n="contact_note">غيّر البريد الإلكتروني إلى بريدك الحقيقي قبل النشر</div>
     </div>
   </section>
 
-  <footer class="footer">
-    <div class="container">
-      © 2026 نظام تدبير الماء الصالح للشرب — جميع الحقوق محفوظة
-    </div>
+  <footer class="footer" data-i18n="footer">
+    © 2026 نظام تدبير الماء الصالح للشرب — جميع الحقوق محفوظة
   </footer>
 
+  <script>
+    const translations = {
+      ar: {
+        brand: "نظام تدبير الماء الصالح للشرب",
+        nav_about: "عن التطبيق",
+        nav_features: "المميزات",
+        nav_screens: "صور التطبيق",
+        nav_privacy: "سياسة الخصوصية",
+        nav_contact: "تواصل",
+        badge: "حل رقمي عملي للجمعيات والمسؤولين عن شبكات الماء بالمغرب",
+        hero_title: "نظام تدبير استهلاك الماء الصالح للشرب",
+        hero_desc: "تطبيق محلي مخصص لتسجيل المشتركين، إدخال قراءات العدادات، حساب الاستهلاك، إصدار إشعارات الأداء، والطباعة عبر الطابعة الحرارية Bluetooth، مع إمكانية مشاركة الإشعارات يدويًا عبر WhatsApp.",
+        play_btn: "تحميل من Google Play",
+        screens_btn: "عرض صور التطبيق",
+        play_note: "غيّر رابط Google Play لاحقًا بعد نشر التطبيق",
+        hero_card_title: "مناسب للاستعمال الميداني اليومي",
+        hero_li_1: "يعمل محليًا بدون إنترنت",
+        hero_li_2: "تسجيل المشتركين وإدارة بياناتهم",
+        hero_li_3: "إدخال قراءات العدادات وتتبع الاستهلاك",
+        hero_li_4: "طباعة الإشعارات عبر الطابعة الحرارية",
+        hero_li_5: "مشاركة الإشعارات يدويًا عبر WhatsApp",
+        about_title: "عن التطبيق",
+        about_desc: "أداة موجهة للجمعيات ومكاتب التسيير والمسؤولين عن شبكات الماء المحلية",
+        card1_title: "إدارة منظمة",
+        card1_desc: "يساعد التطبيق على تنظيم بيانات المشتركين ومتابعة الاستهلاك واستخراج الإشعارات بطريقة واضحة وسريعة.",
+        card2_title: "بدون إنترنت",
+        card2_desc: "يعمل التطبيق محليًا على الجهاز، مما يجعله مناسبًا للاستعمال في المناطق التي يكون فيها الاتصال بالإنترنت محدودًا أو غير متوفر.",
+        card3_title: "طباعة ومشاركة",
+        card3_desc: "يمكن طباعة الوثائق مباشرة عبر طابعة Bluetooth حرارية، أو مشاركة الإشعارات يدويًا عبر WhatsApp عند الحاجة.",
+        features_title: "مميزات التطبيق",
+        features_desc: "وظائف عملية تساعد على التسيير والمتابعة والطباعة",
+        f1_title: "تسجيل المشتركين",
+        f1_desc: "إضافة وإدارة بيانات المشتركين محليًا داخل التطبيق.",
+        f2_title: "إدخال قراءات العدادات",
+        f2_desc: "تسجيل قراءات الماء بطريقة سهلة ومنظمة.",
+        f3_title: "حساب الاستهلاك",
+        f3_desc: "احتساب الاستهلاك بشكل تلقائي وفق المعطيات المدخلة.",
+        f4_title: "إشعارات الأداء",
+        f4_desc: "إنشاء إشعارات ورسائل خاصة بالأداء والتنبيه.",
+        f5_title: "الطباعة الحرارية",
+        f5_desc: "الطباعة المباشرة عبر طابعة Bluetooth حرارية.",
+        f6_title: "مشاركة عبر WhatsApp",
+        f6_desc: "مشاركة الإشعارات يدويًا بطلب من المستخدم فقط.",
+        screens_title: "صور التطبيق",
+        screens_desc: "يمكنك استبدال هذه الأماكن لاحقًا بلقطات شاشة حقيقية من التطبيق",
+        screen1_placeholder: "ضع هنا صورة الشاشة الرئيسية<br>home-screen.jpg",
+        screen1_title: "الواجهة الرئيسية",
+        screen2_placeholder: "ضع هنا صورة لائحة المشتركين<br>subscribers-screen.jpg",
+        screen2_title: "إدارة المشتركين",
+        screen3_placeholder: "ضع هنا صورة الطباعة أو الإشعارات<br>print-screen.jpg",
+        screen3_title: "الطباعة والإشعارات",
+        privacy_title: "سياسة الخصوصية",
+        privacy_desc: "ملخص واضح لطريقة التعامل مع البيانات داخل التطبيق",
+        p1: "يُستخدم التطبيق لإدارة بيانات استهلاك الماء الصالح للشرب محليًا على الجهاز.",
+        p2: "يقوم المسؤول بإدخال بيانات المشتركين يدويًا لأغراض التسيير والإشعار والاستخلاص.",
+        p3: "لا يتم إرسال البيانات إلى خوادم خارجية ضمن الاستخدام المحلي الأساسي للتطبيق.",
+        p4: "لا يستخدم التطبيق الإعلانات أو خدمات التتبع أو التحليلات الإعلانية.",
+        p5: "يمكن مشاركة الإشعارات عبر WhatsApp فقط عندما يختار المستخدم ذلك يدويًا.",
+        p6: "جميع البيانات تبقى تحت مسؤولية الجهة المستعملة للتطبيق على الجهاز المحلي.",
+        contact_title: "هل ترغب في اعتماد هذا الحل داخل جمعيتك؟",
+        contact_desc: "يمكن تخصيص التطبيق حسب حاجيات التسيير والطباعة ومتابعة الاستهلاك.",
+        contact_btn: "تواصل عبر البريد الإلكتروني",
+        contact_note: "غيّر البريد الإلكتروني إلى بريدك الحقيقي قبل النشر",
+        footer: "© 2026 نظام تدبير الماء الصالح للشرب — جميع الحقوق محفوظة"
+      },
+      fr: {
+        brand: "Système de gestion de l’eau potable",
+        nav_about: "À propos",
+        nav_features: "Fonctionnalités",
+        nav_screens: "Captures",
+        nav_privacy: "Confidentialité",
+        nav_contact: "Contact",
+        badge: "Une solution numérique pratique pour les associations et les gestionnaires des réseaux d’eau au Maroc",
+        hero_title: "Système de gestion de la consommation d’eau potable",
+        hero_desc: "Application locale dédiée à l’enregistrement des abonnés, à la saisie des relevés des compteurs, au calcul de la consommation, à la génération des avis de paiement et à l’impression via une imprimante thermique Bluetooth, avec partage manuel via WhatsApp.",
+        play_btn: "Télécharger sur Google Play",
+        screens_btn: "Voir les captures",
+        play_note: "Remplacez le lien Google Play après la publication de l’application",
+        hero_card_title: "Adaptée à l’usage quotidien sur le terrain",
+        hero_li_1: "Fonctionne localement sans Internet",
+        hero_li_2: "Enregistrement et gestion des abonnés",
+        hero_li_3: "Saisie des relevés et suivi de consommation",
+        hero_li_4: "Impression des avis via imprimante thermique",
+        hero_li_5: "Partage manuel via WhatsApp",
+        about_title: "À propos de l’application",
+        about_desc: "Un outil conçu pour les associations, les bureaux de gestion et les responsables des réseaux d’eau locaux",
+        card1_title: "Gestion organisée",
+        card1_desc: "L’application aide à structurer les données des abonnés, suivre la consommation et générer les avis de manière claire et rapide.",
+        card2_title: "Sans Internet",
+        card2_desc: "L’application fonctionne localement sur l’appareil, ce qui la rend adaptée aux zones où la connexion Internet est limitée ou absente.",
+        card3_title: "Impression et partage",
+        card3_desc: "Les documents peuvent être imprimés directement via une imprimante thermique Bluetooth ou partagés manuellement via WhatsApp selon le besoin.",
+        features_title: "Fonctionnalités",
+        features_desc: "Des fonctions pratiques pour la gestion, le suivi et l’impression",
+        f1_title: "Enregistrement des abonnés",
+        f1_desc: "Ajout et gestion locale des données des abonnés dans l’application.",
+        f2_title: "Saisie des relevés",
+        f2_desc: "Enregistrement simple et organisé des relevés des compteurs d’eau.",
+        f3_title: "Calcul de la consommation",
+        f3_desc: "Calcul automatique de la consommation à partir des données saisies.",
+        f4_title: "Avis de paiement",
+        f4_desc: "Création d’avis et de notifications liés au paiement et au suivi.",
+        f5_title: "Impression thermique",
+        f5_desc: "Impression directe via une imprimante thermique Bluetooth.",
+        f6_title: "Partage via WhatsApp",
+        f6_desc: "Partage manuel des avis à la demande de l’utilisateur uniquement.",
+        screens_title: "Captures de l’application",
+        screens_desc: "Vous pourrez remplacer ces espaces plus tard par de vraies captures d’écran",
+        screen1_placeholder: "Placez ici la capture de l’écran principal<br>home-screen.jpg",
+        screen1_title: "Écran principal",
+        screen2_placeholder: "Placez ici la capture de la liste des abonnés<br>subscribers-screen.jpg",
+        screen2_title: "Gestion des abonnés",
+        screen3_placeholder: "Placez ici la capture d’impression ou des avis<br>print-screen.jpg",
+        screen3_title: "Impression et notifications",
+        privacy_title: "Politique de confidentialité",
+        privacy_desc: "Résumé clair de la manière dont les données sont traitées dans l’application",
+        p1: "L’application est utilisée pour gérer localement les données de consommation d’eau potable sur l’appareil.",
+        p2: "Le responsable saisit manuellement les données des abonnés à des fins de gestion, notification et recouvrement.",
+        p3: "Les données ne sont pas envoyées vers des serveurs externes dans l’usage local principal de l’application.",
+        p4: "L’application n’utilise ni publicité, ni suivi, ni outils d’analyse publicitaire.",
+        p5: "Les notifications peuvent être partagées via WhatsApp uniquement lorsque l’utilisateur le décide manuellement.",
+        p6: "Toutes les données restent sous la responsabilité de l’organisme utilisateur sur l’appareil local.",
+        contact_title: "Vous souhaitez adopter cette solution dans votre association ?",
+        contact_desc: "L’application peut être adaptée selon vos besoins en gestion, impression et suivi de consommation.",
+        contact_btn: "Contacter par e-mail",
+        contact_note: "Remplacez l’adresse e-mail par votre vraie adresse avant la publication",
+        footer: "© 2026 Système de gestion de l’eau potable — Tous droits réservés"
+      }
+    };
+
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+      document.body.classList.remove("lang-ar", "lang-fr");
+      document.body.classList.add(lang === "ar" ? "lang-ar" : "lang-fr");
+
+      document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+      document.getElementById("btnFr").classList.toggle("active", lang === "fr");
+
+      document.getElementById("brandText").textContent = translations[lang].brand;
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+
+      document.title = translations[lang].hero_title;
+      localStorage.setItem("site-language", lang);
+    }
+
+    const savedLang = localStorage.getItem("site-language") || "ar";
+    setLanguage(savedLang);
+  </script>
 </body>
 </html>
