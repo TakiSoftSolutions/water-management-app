@@ -3,22 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>نظام تدبير استهلاك الماء الشروب</title>
-  <meta name="description" content="تطبيق محلي لتدبير استهلاك الماء الشروب للجمعيات والمسؤولين عن شبكات الماء، مع الطباعة الحرارية والمشاركة عبر WhatsApp." />
+  <title>نظام تدبير الماء الصالح للشرب</title>
+  <meta
+    name="description"
+    content="تطبيق محلي لتدبير استهلاك الماء الصالح للشرب للجمعيات والمسؤولين، مع الطباعة الحرارية والمشاركة عبر WhatsApp."
+  />
   <style>
     :root{
       --primary:#0f766e;
-      --primary-dark:#115e59;
-      --secondary:#0ea5e9;
-      --accent:#f59e0b;
+      --primary-2:#0ea5e9;
+      --dark:#0f172a;
+      --muted:#475569;
       --bg:#f8fafc;
       --card:#ffffff;
-      --text:#0f172a;
-      --muted:#475569;
       --border:#e2e8f0;
-      --shadow:0 10px 30px rgba(15, 23, 42, 0.08);
-      --radius:20px;
-      --max:1100px;
+      --gold:#f59e0b;
+      --shadow:0 12px 35px rgba(15,23,42,.10);
+      --radius:24px;
+      --max:1180px;
     }
 
     *{box-sizing:border-box}
@@ -26,8 +28,8 @@
     body{
       margin:0;
       font-family:"Tahoma","Arial","Segoe UI",sans-serif;
-      background:var(--bg);
-      color:var(--text);
+      background:linear-gradient(180deg,#f8fafc 0%,#eef7f8 100%);
+      color:var(--dark);
       line-height:1.9;
     }
 
@@ -40,35 +42,54 @@
     }
 
     .topbar{
-      background:#ffffffcc;
-      backdrop-filter: blur(10px);
-      border-bottom:1px solid var(--border);
       position:sticky;
       top:0;
-      z-index:1000;
+      z-index:999;
+      background:rgba(255,255,255,.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(226,232,240,.9);
     }
 
     .nav{
+      min-height:76px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:20px;
-      min-height:72px;
+      flex-wrap:wrap;
     }
 
     .brand{
       font-size:1.15rem;
-      font-weight:700;
-      color:var(--primary-dark);
+      font-weight:800;
+      color:var(--primary);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .brand-badge{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--primary),var(--primary-2));
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:800;
+      box-shadow:var(--shadow);
     }
 
     .nav-links{
       display:flex;
       gap:18px;
       flex-wrap:wrap;
-      font-size:.97rem;
       color:var(--muted);
+      font-size:.95rem;
     }
+
+    .nav-links a:hover{color:var(--primary)}
 
     .btn{
       display:inline-flex;
@@ -77,102 +98,123 @@
       gap:8px;
       padding:13px 22px;
       border-radius:999px;
-      font-weight:700;
+      font-weight:800;
       transition:.25s ease;
       border:1px solid transparent;
       cursor:pointer;
     }
 
     .btn-primary{
-      background:var(--primary);
+      background:linear-gradient(135deg,var(--primary),var(--primary-2));
       color:#fff;
       box-shadow:var(--shadow);
     }
-    .btn-primary:hover{background:var(--primary-dark)}
+
+    .btn-primary:hover{transform:translateY(-2px)}
+
     .btn-outline{
-      border-color:var(--primary);
-      color:var(--primary);
       background:#fff;
+      color:var(--primary);
+      border-color:var(--primary);
     }
+
     .btn-outline:hover{
       background:#f0fdfa;
     }
 
     .hero{
-      padding:72px 0 48px;
-      background:
-        radial-gradient(circle at top right, rgba(14,165,233,.12), transparent 30%),
-        radial-gradient(circle at top left, rgba(15,118,110,.12), transparent 30%);
+      padding:78px 0 44px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-120px auto auto -120px;
+      width:320px;
+      height:320px;
+      background:radial-gradient(circle, rgba(14,165,233,.16), transparent 70%);
+      pointer-events:none;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:auto -100px -120px auto;
+      width:340px;
+      height:340px;
+      background:radial-gradient(circle, rgba(15,118,110,.14), transparent 70%);
+      pointer-events:none;
     }
 
     .hero-grid{
       display:grid;
       grid-template-columns:1.2fr .8fr;
-      gap:28px;
+      gap:26px;
       align-items:center;
     }
 
     .badge{
       display:inline-block;
-      background:#ecfeff;
-      color:#0c4a6e;
-      border:1px solid #bae6fd;
       padding:8px 14px;
+      background:#ecfeff;
+      border:1px solid #bae6fd;
+      color:#0c4a6e;
       border-radius:999px;
-      font-size:.9rem;
+      font-size:.92rem;
       margin-bottom:18px;
+      font-weight:700;
     }
 
     h1{
-      font-size:clamp(2rem, 5vw, 3.5rem);
-      line-height:1.25;
       margin:0 0 16px;
-      color:#062c30;
+      font-size:clamp(2rem,5vw,3.8rem);
+      line-height:1.25;
     }
 
     .lead{
-      font-size:1.08rem;
-      color:var(--muted);
       margin:0 0 24px;
+      color:var(--muted);
+      font-size:1.06rem;
     }
 
     .hero-actions{
       display:flex;
       gap:12px;
       flex-wrap:wrap;
-      margin-top:20px;
     }
 
     .hero-card{
-      background:linear-gradient(135deg, #0f766e, #0ea5e9);
+      background:linear-gradient(135deg,#0f766e,#0284c7);
       color:#fff;
-      border-radius:28px;
+      border-radius:30px;
       padding:28px;
       box-shadow:var(--shadow);
       position:relative;
       overflow:hidden;
-      min-height:320px;
     }
 
     .hero-card::after{
       content:"";
       position:absolute;
-      inset:auto -40px -40px auto;
-      width:180px;
-      height:180px;
-      background:rgba(255,255,255,.14);
+      left:-25px;
+      bottom:-25px;
+      width:130px;
+      height:130px;
       border-radius:50%;
+      background:rgba(255,255,255,.10);
     }
 
     .hero-card h3{
       margin-top:0;
-      font-size:1.4rem;
+      font-size:1.35rem;
     }
 
     .hero-list{
+      list-style:none;
       padding:0;
       margin:18px 0 0;
-      list-style:none;
     }
 
     .hero-list li{
@@ -186,32 +228,29 @@
       position:absolute;
       right:0;
       color:#fde68a;
-      font-weight:bold;
+      font-weight:900;
     }
 
-    section{
-      padding:34px 0;
-    }
+    section{padding:34px 0}
 
-    .section-title{
+    .section-head{
       text-align:center;
-      margin-bottom:22px;
+      margin-bottom:24px;
     }
 
-    .section-title h2{
+    .section-head h2{
       margin:0 0 8px;
       font-size:2rem;
-      color:#0f172a;
     }
 
-    .section-title p{
+    .section-head p{
       margin:0;
       color:var(--muted);
     }
 
-    .grid-3{
+    .cards-3{
       display:grid;
-      grid-template-columns:repeat(3, 1fr);
+      grid-template-columns:repeat(3,1fr);
       gap:18px;
     }
 
@@ -225,8 +264,8 @@
 
     .card h3{
       margin:0 0 10px;
-      font-size:1.1rem;
-      color:var(--primary-dark);
+      color:var(--primary);
+      font-size:1.08rem;
     }
 
     .card p{
@@ -237,14 +276,14 @@
 
     .features{
       display:grid;
-      grid-template-columns:repeat(2, 1fr);
+      grid-template-columns:repeat(2,1fr);
       gap:18px;
     }
 
     .feature{
       background:#fff;
       border:1px solid var(--border);
-      border-radius:18px;
+      border-radius:20px;
       padding:18px 20px;
       box-shadow:var(--shadow);
     }
@@ -252,7 +291,7 @@
     .feature strong{
       display:block;
       margin-bottom:6px;
-      color:#0f172a;
+      color:var(--dark);
     }
 
     .feature span{
@@ -260,116 +299,132 @@
       font-size:.95rem;
     }
 
-    .about{
+    .gallery{
       display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:22px;
-      align-items:start;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
     }
 
-    .info-list{
-      list-style:none;
-      padding:0;
-      margin:0;
-    }
-
-    .info-list li{
+    .shot{
       background:#fff;
       border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px 16px;
-      margin-bottom:12px;
+      border-radius:22px;
+      padding:14px;
       box-shadow:var(--shadow);
-      color:var(--muted);
     }
 
-    .privacy-box{
-      background:#ffffff;
+    .shot-box{
+      min-height:340px;
+      border-radius:18px;
+      border:2px dashed #cbd5e1;
+      background:linear-gradient(180deg,#f8fafc,#eef2f7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      color:#64748b;
+      padding:18px;
+      overflow:hidden;
+    }
+
+    .shot-box img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:14px;
+    }
+
+    .shot-title{
+      margin-top:12px;
+      font-weight:700;
+      color:var(--primary);
+      text-align:center;
+    }
+
+    .lang-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .lang-card{
+      background:#fff;
       border:1px solid var(--border);
       border-radius:24px;
-      padding:26px;
+      padding:24px;
       box-shadow:var(--shadow);
     }
 
-    .privacy-box h3{
+    .lang-card h3{
       margin-top:0;
-      color:var(--primary-dark);
+      color:var(--primary);
     }
 
-    .privacy-box ul{
+    .privacy{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+
+    .privacy ul{
       margin:0;
       padding-right:20px;
       color:var(--muted);
     }
 
+    .privacy li{margin:10px 0}
+
     .cta{
-      margin:30px 0 10px;
-      background:linear-gradient(135deg, #082f49, #0f766e);
+      background:linear-gradient(135deg,#082f49,#0f766e);
       color:#fff;
-      border-radius:28px;
-      padding:32px;
-      box-shadow:var(--shadow);
+      border-radius:30px;
+      padding:34px;
       text-align:center;
+      box-shadow:var(--shadow);
     }
 
     .cta h2{
-      margin:0 0 12px;
+      margin:0 0 10px;
       font-size:2rem;
     }
 
     .cta p{
       margin:0 0 18px;
-      color:#e2e8f0;
+      color:#dbeafe;
     }
 
     .footer{
-      padding:28px 0 50px;
+      text-align:center;
       color:var(--muted);
-      font-size:.92rem;
+      font-size:.93rem;
+      padding:30px 0 42px;
+    }
+
+    .small-note{
       text-align:center;
-    }
-
-    .screens{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:16px;
-    }
-
-    .screen{
-      background:#fff;
-      border:1px dashed #cbd5e1;
-      border-radius:18px;
-      min-height:230px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
       color:#64748b;
-      text-align:center;
-      padding:20px;
-      box-shadow:var(--shadow);
+      margin-top:12px;
+      font-size:.92rem;
     }
 
-    @media (max-width: 900px){
+    @media (max-width: 920px){
       .hero-grid,
-      .about,
-      .grid-3,
+      .cards-3,
       .features,
-      .screens{
+      .gallery,
+      .lang-grid{
         grid-template-columns:1fr;
       }
 
       .nav{
-        flex-direction:column;
         justify-content:center;
         padding:12px 0;
       }
 
-      .nav-links{
-        justify-content:center;
-      }
-
       .hero{
-        padding-top:40px;
+        padding-top:44px;
       }
     }
   </style>
@@ -378,11 +433,16 @@
 
   <div class="topbar">
     <div class="container nav">
-      <div class="brand">نظام تدبير الماء الشروب</div>
+      <div class="brand">
+        <span class="brand-badge">💧</span>
+        <span>نظام تدبير الماء الصالح للشرب</span>
+      </div>
+
       <div class="nav-links">
         <a href="#about">عن التطبيق</a>
         <a href="#features">المميزات</a>
-        <a href="#screens">الصور</a>
+        <a href="#screens">صور التطبيق</a>
+        <a href="#fr">Français</a>
         <a href="#privacy">سياسة الخصوصية</a>
         <a href="#contact">تواصل</a>
       </div>
@@ -392,27 +452,34 @@
   <header class="hero">
     <div class="container hero-grid">
       <div>
-        <div class="badge">حل رقمي محلي للجمعيات والمسؤولين عن شبكات الماء</div>
-        <h1>نظام تدبير استهلاك الماء الشروب</h1>
+        <div class="badge">حل رقمي عملي للجمعيات والمسؤولين عن شبكات الماء بالمغرب</div>
+        <h1>نظام تدبير استهلاك الماء الصالح للشرب</h1>
         <p class="lead">
-          تطبيق عملي لتسجيل المشتركين، إدخال قراءات العدادات، حساب الاستهلاك،
-          إصدار إشعارات الأداء، وطباعة الوثائق عبر الطابعة الحرارية Bluetooth،
-          مع إمكانية المشاركة اليدوية عبر WhatsApp.
+          تطبيق محلي مخصص لتسجيل المشتركين، إدخال قراءات العدادات،
+          حساب الاستهلاك، إصدار إشعارات الأداء، والطباعة عبر الطابعة الحرارية
+          Bluetooth، مع إمكانية مشاركة الإشعارات يدويًا عبر WhatsApp.
         </p>
+
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#features">اكتشف المميزات</a>
-          <a class="btn btn-outline" href="#privacy">سياسة الخصوصية</a>
+          <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME" target="_blank">
+            تحميل من Google Play
+          </a>
+          <a class="btn btn-outline" href="#screens">عرض صور التطبيق</a>
+        </div>
+
+        <div class="small-note">
+          غيّر رابط Google Play لاحقًا بعد نشر التطبيق
         </div>
       </div>
 
       <div class="hero-card">
-        <h3>مناسب للاستعمال الميداني</h3>
+        <h3>مناسب للاستعمال الميداني اليومي</h3>
         <ul class="hero-list">
           <li>يعمل محليًا بدون إنترنت</li>
-          <li>إدارة بيانات المشتركين بسهولة</li>
-          <li>الطباعة على طابعات حرارية عبر Bluetooth</li>
+          <li>تسجيل المشتركين وإدارة بياناتهم</li>
+          <li>إدخال قراءات العدادات وتتبع الاستهلاك</li>
+          <li>طباعة الإشعارات عبر الطابعة الحرارية</li>
           <li>مشاركة الإشعارات يدويًا عبر WhatsApp</li>
-          <li>واجهة مبسطة للاستعمال اليومي</li>
         </ul>
       </div>
     </div>
@@ -420,62 +487,70 @@
 
   <section id="about">
     <div class="container">
-      <div class="section-title">
+      <div class="section-head">
         <h2>عن التطبيق</h2>
-        <p>أداة موجهة للجمعيات والمسؤولين عن تدبير شبكات الماء داخل التجمعات السكنية</p>
+        <p>أداة موجهة للجمعيات ومكاتب التسيير والمسؤولين عن شبكات الماء المحلية</p>
       </div>
 
-      <div class="about">
+      <div class="cards-3">
         <div class="card">
-          <h3>وصف عام</h3>
+          <h3>إدارة منظمة</h3>
           <p>
-            يساعد التطبيق على تنظيم عملية تدبير استهلاك الماء الشروب من خلال
-            تسجيل المشتركين، تتبع الاستهلاك، إعداد الإشعارات، وطباعة الوصولات
-            أو الوثائق المرتبطة بالاستخلاص.
+            يساعد التطبيق على تنظيم بيانات المشتركين ومتابعة الاستهلاك
+            واستخراج الإشعارات بطريقة واضحة وسريعة.
           </p>
         </div>
 
-        <ul class="info-list">
-          <li><strong>نوع التطبيق:</strong> تطبيـق مهني محلي</li>
-          <li><strong>الاتصال بالإنترنت:</strong> غير مطلوب في الاستخدام الأساسي</li>
-          <li><strong>وسيلة الطباعة:</strong> Bluetooth + طابعة حرارية</li>
-          <li><strong>الفئة المستهدفة:</strong> الجمعيات ومسؤولو شبكات الماء</li>
-        </ul>
+        <div class="card">
+          <h3>بدون إنترنت</h3>
+          <p>
+            يعمل التطبيق محليًا على الجهاز، مما يجعله مناسبًا للاستعمال
+            في المناطق التي يكون فيها الاتصال بالإنترنت محدودًا أو غير متوفر.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>طباعة ومشاركة</h3>
+          <p>
+            يمكن طباعة الوثائق مباشرة عبر طابعة Bluetooth حرارية،
+            أو مشاركة الإشعارات يدويًا عبر WhatsApp عند الحاجة.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <section id="features">
     <div class="container">
-      <div class="section-title">
+      <div class="section-head">
         <h2>مميزات التطبيق</h2>
-        <p>وظائف عملية تسهّل التتبع والطباعة والتواصل مع المشتركين</p>
+        <p>وظائف عملية تساعد على التسيير والمتابعة والطباعة</p>
       </div>
 
       <div class="features">
         <div class="feature">
           <strong>تسجيل المشتركين</strong>
-          <span>إضافة بيانات المشتركين وتنظيمها داخل قاعدة بيانات محلية.</span>
+          <span>إضافة وإدارة بيانات المشتركين محليًا داخل التطبيق.</span>
         </div>
         <div class="feature">
-          <strong>إدخال القراءات</strong>
-          <span>تسجيل قراءات العدادات وتتبع الاستهلاك بطريقة منظمة.</span>
+          <strong>إدخال قراءات العدادات</strong>
+          <span>تسجيل قراءات الماء بطريقة سهلة ومنظمة.</span>
         </div>
         <div class="feature">
           <strong>حساب الاستهلاك</strong>
-          <span>احتساب الاستهلاك تلقائيًا وفق المعطيات المسجلة.</span>
+          <span>احتساب الاستهلاك بشكل تلقائي وفق المعطيات المدخلة.</span>
         </div>
         <div class="feature">
           <strong>إشعارات الأداء</strong>
-          <span>إنشاء إشعارات ورسائل خاصة بالاستخلاص والتنبيه.</span>
+          <span>إنشاء إشعارات ورسائل خاصة بالأداء والتنبيه.</span>
         </div>
         <div class="feature">
           <strong>الطباعة الحرارية</strong>
-          <span>طباعة الوثائق مباشرة عبر طابعة Bluetooth حرارية.</span>
+          <span>الطباعة المباشرة عبر طابعة Bluetooth حرارية.</span>
         </div>
         <div class="feature">
           <strong>مشاركة عبر WhatsApp</strong>
-          <span>مشاركة الإشعارات يدويًا بطلب من المستخدم.</span>
+          <span>مشاركة الإشعارات يدويًا بطلب من المستخدم فقط.</span>
         </div>
       </div>
     </div>
@@ -483,34 +558,90 @@
 
   <section id="screens">
     <div class="container">
-      <div class="section-title">
-        <h2>صور من التطبيق</h2>
-        <p>يمكنك استبدال هذه المربعات لاحقًا بلقطات شاشة حقيقية من التطبيق</p>
+      <div class="section-head">
+        <h2>صور التطبيق</h2>
+        <p>يمكنك استبدال هذه الأماكن لاحقًا بلقطات شاشة حقيقية من التطبيق</p>
       </div>
 
-      <div class="screens">
-        <div class="screen">صورة شاشة: الصفحة الرئيسية</div>
-        <div class="screen">صورة شاشة: لائحة المشتركين</div>
-        <div class="screen">صورة شاشة: الطباعة والإشعارات</div>
+      <div class="gallery">
+        <div class="shot">
+          <div class="shot-box">
+            <!-- استبدل هذا النص بالصورة -->
+            <span>ضع هنا صورة الشاشة الرئيسية<br>home-screen.jpg</span>
+          </div>
+          <div class="shot-title">الواجهة الرئيسية</div>
+        </div>
+
+        <div class="shot">
+          <div class="shot-box">
+            <span>ضع هنا صورة لائحة المشتركين<br>subscribers-screen.jpg</span>
+          </div>
+          <div class="shot-title">إدارة المشتركين</div>
+        </div>
+
+        <div class="shot">
+          <div class="shot-box">
+            <span>ضع هنا صورة الطباعة أو الإشعارات<br>print-screen.jpg</span>
+          </div>
+          <div class="shot-title">الطباعة والإشعارات</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fr">
+    <div class="container">
+      <div class="section-head">
+        <h2>Version française</h2>
+        <p>Présentation adaptée au contexte marocain</p>
+      </div>
+
+      <div class="lang-grid">
+        <div class="lang-card">
+          <h3>Présentation</h3>
+          <p>
+            Cette application est conçue pour les associations, les gestionnaires
+            locaux et les responsables chargés de la gestion de la consommation
+            d’eau potable dans les petites collectivités et les zones résidentielles.
+          </p>
+          <p>
+            Elle permet d’enregistrer les abonnés, saisir les relevés des compteurs,
+            calculer la consommation, générer des avis de paiement et imprimer
+            les documents via une imprimante thermique Bluetooth.
+          </p>
+        </div>
+
+        <div class="lang-card">
+          <h3>Fonctionnalités</h3>
+          <p>
+            L’application fonctionne localement sans connexion Internet.
+            Les notifications peuvent être partagées manuellement via WhatsApp
+            selon le besoin de l’utilisateur.
+          </p>
+          <p>
+            Elle constitue une solution pratique pour la gestion quotidienne
+            des réseaux d’eau potable au Maroc.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <section id="privacy">
     <div class="container">
-      <div class="section-title">
+      <div class="section-head">
         <h2>سياسة الخصوصية</h2>
         <p>ملخص واضح لطريقة التعامل مع البيانات داخل التطبيق</p>
       </div>
 
-      <div class="privacy-box">
-        <h3>نلتزم بحماية بيانات المستخدمين</h3>
+      <div class="privacy">
         <ul>
-          <li>يُستخدم التطبيق لتدبير بيانات استهلاك الماء الشروب محليًا على الجهاز.</li>
-          <li>يُدخل المسؤول بيانات المشتركين يدويًا لأغراض التسيير والإشعار والاستخلاص.</li>
+          <li>يُستخدم التطبيق لإدارة بيانات استهلاك الماء الصالح للشرب محليًا على الجهاز.</li>
+          <li>يقوم المسؤول بإدخال بيانات المشتركين يدويًا لأغراض التسيير والإشعار والاستخلاص.</li>
           <li>لا يتم إرسال البيانات إلى خوادم خارجية ضمن الاستخدام المحلي الأساسي للتطبيق.</li>
-          <li>لا يستخدم التطبيق الإعلانات أو التتبع أو التحليلات الإعلانية.</li>
+          <li>لا يستخدم التطبيق الإعلانات أو خدمات التتبع أو التحليلات الإعلانية.</li>
           <li>يمكن مشاركة الإشعارات عبر WhatsApp فقط عندما يختار المستخدم ذلك يدويًا.</li>
+          <li>جميع البيانات تبقى تحت مسؤولية الجهة المستعملة للتطبيق على الجهاز المحلي.</li>
         </ul>
       </div>
     </div>
@@ -520,15 +651,18 @@
     <div class="container">
       <div class="cta">
         <h2>هل ترغب في اعتماد هذا الحل داخل جمعيتك؟</h2>
-        <p>يمكن تخصيص التطبيق حسب حاجيات التسيير والطباعة والتنظيم المحلي.</p>
-        <a class="btn btn-primary" href="mailto:example@email.com">تواصل عبر البريد الإلكتروني</a>
+        <p>
+          يمكن تخصيص التطبيق حسب حاجيات التسيير والطباعة ومتابعة الاستهلاك.
+        </p>
+        <a class="btn btn-primary" href="mailto:your-email@example.com">تواصل عبر البريد الإلكتروني</a>
       </div>
+      <div class="small-note">غيّر البريد الإلكتروني إلى بريدك الحقيقي قبل النشر</div>
     </div>
   </section>
 
   <footer class="footer">
     <div class="container">
-      © 2026 نظام تدبير استهلاك الماء الشروب — جميع الحقوق محفوظة
+      © 2026 نظام تدبير الماء الصالح للشرب — جميع الحقوق محفوظة
     </div>
   </footer>
 
